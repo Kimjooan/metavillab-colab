@@ -344,12 +344,100 @@ with open("menu.txt", encoding="utf-8") as f:
 ], "활동 5 · 뽑은 글자 다듬기")
 
 
+# ─────────────────────────────────────────────────────────────
+# 활동 6 · 글자 영역에 상자 그리기  (py_colab_u02_a06)
+# ─────────────────────────────────────────────────────────────
+A06 = notebook([
+    md("""
+# 활동 6 · 글자 영역에 상자 그리기
+
+OCR이 찾은 글자의 위치(box)를 써서 메뉴판 사진 위에 상자를 그리고, 상자 위에 읽은 글자를 써요.
+셀을 **위에서 아래로 하나씩** 실행해요. 준비 셀과 셀 2는 조금 기다려야 해요.
+
+이 노트북은 learnX 학습 화면과 같이 봐요.
+"""),
+    code(f"""
+# [준비] 1~3분 걸려요. 기다리는 동안 학습 화면의 "이해하기"를 읽어요.
+!pip install -q --progress-bar off easyocr
+!apt-get -qq install -y fonts-nanum > /dev/null
+!wget -q {RAW}/samples/u02/menu_ko.png
+import warnings, logging
+warnings.filterwarnings("ignore")
+logging.getLogger("easyocr").setLevel(logging.ERROR)
+print("준비 끝")
+"""),
+    code("""
+# [셀 2] 메뉴판 읽기 (활동 4와 같아요)  ※ 1분쯤 기다려요
+import easyocr
+reader = easyocr.Reader(["ko", "en"], gpu=False)
+results = reader.readtext("menu_ko.png")
+print("\\n찾은 글자:", len(results), "개")
+"""),
+    code("""
+# [셀 3] 상자 하나 살펴보기
+box, text, conf = results[2]
+print("글자:", text)
+corners = ["왼쪽 위", "오른쪽 위", "오른쪽 아래", "왼쪽 아래"]
+for i in range(4):
+    print(corners[i], int(box[i][0]), int(box[i][1]))
+"""),
+    code("""
+# [셀 4] 사진에 상자 그리기 (OpenCV)
+import cv2
+from IPython.display import Image, display
+img = cv2.imread("menu_ko.png")
+for box, text, conf in results:
+    top_left = (int(box[0][0]), int(box[0][1]))
+    bottom_right = (int(box[2][0]), int(box[2][1]))
+    if conf >= 0.8:
+        color = (0, 170, 0)    # 초록 (OpenCV는 파랑, 초록, 빨강 순서로 써요)
+    else:
+        color = (0, 0, 255)    # 빨강
+    cv2.rectangle(img, top_left, bottom_right, color, 3)
+cv2.imwrite("boxes.png", img)
+display(Image("boxes.png", width=420))
+"""),
+    code("""
+# [셀 5] OpenCV로 글자 쓰기  ※ 한글이 어떻게 나오는지 봐요
+for box, text, conf in results:
+    x, y = int(box[0][0]), int(box[0][1])
+    cv2.putText(img, text, (x, y - 8), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 0, 0), 3)
+cv2.imwrite("boxes_cv_text.png", img)
+display(Image("boxes_cv_text.png", width=420))
+"""),
+    code("""
+# [셀 6] 한글은 PIL과 나눔 글꼴로 쓰기
+import PIL.Image
+from PIL import ImageDraw, ImageFont
+pic = PIL.Image.open("boxes.png")
+draw = ImageDraw.Draw(pic)
+font = ImageFont.truetype("/usr/share/fonts/truetype/nanum/NanumGothicBold.ttf", 30)
+for box, text, conf in results:
+    x, y = int(box[0][0]), int(box[0][1])
+    draw.text((x, y - 36), text, font=font, fill=(30, 60, 200))
+pic.save("boxes_text.png")
+display(Image("boxes_text.png", width=420))
+"""),
+    md("""
+---
+여기까지 됐으면 학습 화면으로 돌아가 **결과 확인**을 눌러요.
+
+아래 빈 셀은 **바꿔 보기** 미션에서 써요.
+"""),
+    code("""
+# [바꿔 보기] 여기에 써요
+
+"""),
+], "활동 6 · 글자 영역에 상자 그리기")
+
+
 TARGETS = {
     "notebooks/u01/a01_first_run.ipynb": A01,
     "notebooks/u01/a02_notebook_basics.ipynb": A02,
     "notebooks/u01/a03_qrcode.ipynb": A03,
     "notebooks/u02/a04_ocr.ipynb": A04,
     "notebooks/u02/a05_ocr_cleanup.ipynb": A05,
+    "notebooks/u02/a06_ocr_boxes.ipynb": A06,
 }
 
 if __name__ == "__main__":
