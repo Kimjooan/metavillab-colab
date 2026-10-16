@@ -403,15 +403,15 @@ import PIL.Image
 from PIL import ImageDraw, ImageFont
 pic = PIL.Image.open("boxes.png")
 draw = ImageDraw.Draw(pic)
-font = ImageFont.truetype("/usr/share/fonts/truetype/nanum/NanumGothicBold.ttf", 30)
+font = ImageFont.truetype("/usr/share/fonts/truetype/nanum/NanumGothicBold.ttf", 34)
 for box, text, conf in results:
     x, y = int(box[0][0]), int(box[0][1])
-    draw.text((x, y - 36), text, font=font, fill=(30, 60, 200))
+    draw.text((x, y - 40), text, font=font, fill=(220, 30, 90))
 pic.save("boxes_text.png")
 display(Image("boxes_text.png", width=360))
 """),
     code("""
-# [셀 6] 헷갈린 부분만 잘라 크게 보기
+# [셀 6] 헷갈린 부분만 잘라 보기
 src = PIL.Image.open("menu_ko.png")
 for box, text, conf in results:
     if conf < 0.8:
@@ -420,7 +420,7 @@ for box, text, conf in results:
         piece = src.crop((x1, y1, x2, y2))
         piece.save("piece.png")
         print("읽은 글자:", text, round(conf, 2))
-        display(Image("piece.png", width=240))
+        display(Image("piece.png"))
 """),
     md("""
 ---
