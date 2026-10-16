@@ -454,6 +454,7 @@ A07 = notebook([
 import warnings, logging
 warnings.filterwarnings("ignore")
 logging.getLogger("easyocr").setLevel(logging.ERROR)
+logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
 from transformers.utils import logging as hf_logging
 hf_logging.set_verbosity_error()
 print("준비 끝")
@@ -477,22 +478,28 @@ for text in lines:
 """),
     code("""
 # [셀 4] 번역 도구 준비 (한국어를 영어로)  ※ 처음 한 번은 1분쯤 기다려요
-from transformers import pipeline
-translator = pipeline("translation", model="Helsinki-NLP/opus-mt-ko-en")
+from transformers import MarianMTModel, MarianTokenizer
+model_name = "Helsinki-NLP/opus-mt-ko-en"
+tokenizer = MarianTokenizer.from_pretrained(model_name)
+model = MarianMTModel.from_pretrained(model_name, use_safetensors=True)
+
+def translate(text):
+    tokens = tokenizer([text], return_tensors="pt")
+    output = model.generate(**tokens)
+    return tokenizer.decode(output[0], skip_special_tokens=True)
+
 print("번역 도구 준비 끝")
 """),
     code("""
 # [셀 5] 한 줄씩 번역하기
 for text in lines:
-    result = translator(text)
     print(text)
-    print("   ", result[0]["translation_text"])
+    print("   ", translate(text))
 """),
     code("""
 # [셀 6] 내 문장 번역하기
 my_sentence = "나는 파이썬으로 사진 속 글자를 읽을 수 있어요"
-result = translator(my_sentence)
-print(result[0]["translation_text"])
+print(translate(my_sentence))
 """),
     md("""
 ---
