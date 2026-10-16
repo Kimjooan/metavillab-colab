@@ -291,7 +291,7 @@ print("준비 끝")
 import easyocr
 reader = easyocr.Reader(["ko", "en"], gpu=False)
 results = reader.readtext("menu_ko.png")
-print(len(results), "개를 찾았어요")
+print("\\n찾은 글자:", len(results), "개")
 """),
     code("""
 # [셀 3] 확신 정도로 거르기
