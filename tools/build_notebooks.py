@@ -101,8 +101,11 @@ A04 = notebook([
 """),
     code(f"""
 # [준비] 1~3분 걸려요. 기다리는 동안 학습 화면의 "이해하기"를 읽어요.
-!pip install -q easyocr
+!pip install -q --progress-bar off easyocr
 !wget -q {RAW}/samples/u02/menu_ko.png
+import warnings, logging
+warnings.filterwarnings("ignore")
+logging.getLogger("easyocr").setLevel(logging.ERROR)
 print("준비 끝")
 """),
     code("""
