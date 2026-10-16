@@ -264,11 +264,92 @@ print(" ".join(words))
 ], "활동 4 · 사진에서 글자 뽑기 (OCR)")
 
 
+# ─────────────────────────────────────────────────────────────
+# 활동 5 · 뽑은 글자 다듬기  (py_colab_u02_a05)
+# ─────────────────────────────────────────────────────────────
+A05 = notebook([
+    md("""
+# 활동 5 · 뽑은 글자 다듬기
+
+활동 4에서 뽑은 메뉴판 글자를 반복문과 조건문으로 다듬어요.
+믿기 어려운 글자는 거르고, 가격과 메뉴 이름을 나누고, 원하는 단어를 찾고, 텍스트 파일로 저장해요.
+셀을 **위에서 아래로 하나씩** 실행해요. 준비 셀과 셀 2는 조금 기다려야 해요.
+
+이 노트북은 learnX 학습 화면과 같이 봐요.
+"""),
+    code(f"""
+# [준비] 1~3분 걸려요. 기다리는 동안 학습 화면의 "이해하기"를 읽어요.
+!pip install -q --progress-bar off easyocr
+!wget -q {RAW}/samples/u02/menu_ko.png
+import warnings, logging
+warnings.filterwarnings("ignore")
+logging.getLogger("easyocr").setLevel(logging.ERROR)
+print("준비 끝")
+"""),
+    code("""
+# [셀 2] 메뉴판 읽기 (활동 4와 같아요)  ※ 1분쯤 기다려요
+import easyocr
+reader = easyocr.Reader(["ko", "en"], gpu=False)
+results = reader.readtext("menu_ko.png")
+print(len(results), "개를 찾았어요")
+"""),
+    code("""
+# [셀 3] 확신 정도로 거르기
+words = []
+for box, text, conf in results:
+    if conf >= 0.6:
+        words.append(text)
+    else:
+        print("버린 글자:", text, round(conf, 2))
+print("남긴 글자:", len(words), "개")
+"""),
+    code("""
+# [셀 4] 가격과 메뉴 이름 나누기
+prices = []
+names = []
+for text in words:
+    if "원" in text:
+        prices.append(text)
+    else:
+        names.append(text)
+print("가격:", prices)
+print("이름:", names)
+"""),
+    code("""
+# [셀 5] 단어 찾기
+keyword = "김밥"
+for i in range(len(words)):
+    if keyword in words[i]:
+        print("찾았어요:", words[i], "/ 순서", i)
+        print("바로 다음 글자:", words[i + 1])
+"""),
+    code("""
+# [셀 6] 텍스트 파일로 저장하기
+with open("menu.txt", "w", encoding="utf-8") as f:
+    for text in words:
+        f.write(text + "\\n")
+with open("menu.txt", encoding="utf-8") as f:
+    print(f.read())
+"""),
+    md("""
+---
+여기까지 됐으면 학습 화면으로 돌아가 **결과 확인**을 눌러요.
+
+아래 빈 셀은 **바꿔 보기** 미션에서 써요.
+"""),
+    code("""
+# [바꿔 보기] 여기에 써요
+
+"""),
+], "활동 5 · 뽑은 글자 다듬기")
+
+
 TARGETS = {
     "notebooks/u01/a01_first_run.ipynb": A01,
     "notebooks/u01/a02_notebook_basics.ipynb": A02,
     "notebooks/u01/a03_qrcode.ipynb": A03,
     "notebooks/u02/a04_ocr.ipynb": A04,
+    "notebooks/u02/a05_ocr_cleanup.ipynb": A05,
 }
 
 if __name__ == "__main__":

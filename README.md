@@ -14,6 +14,7 @@ notebooks/
   u01/a02_notebook_basics.ipynb  01. 코랩 첫걸음 · 활동 2 노트북 다루기
   u01/a03_qrcode.ipynb           01. 코랩 첫걸음 · 활동 3 라이브러리 설치하고 QR코드 만들기
   u02/a04_ocr.ipynb              02. 사진 속 글자 · 활동 4 사진에서 글자 뽑기 (OCR)
+  u02/a05_ocr_cleanup.ipynb      02. 사진 속 글자 · 활동 5 뽑은 글자 다듬기
 samples/
   u01/upload_me.png              활동 2 파일 올리기 연습 그림 (학습 화면에서도 내려받음)
   u02/menu_ko.png                OCR 연습용 가짜 분식집 메뉴판 (직접 제작)
