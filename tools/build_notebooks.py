@@ -395,18 +395,10 @@ for box, text, conf in results:
         color = (0, 0, 255)    # 빨강
     cv2.rectangle(img, top_left, bottom_right, color, 3)
 cv2.imwrite("boxes.png", img)
-display(Image("boxes.png", width=420))
+display(Image("boxes.png", width=360))
 """),
     code("""
-# [셀 5] OpenCV로 글자 쓰기  ※ 한글이 어떻게 나오는지 봐요
-for box, text, conf in results:
-    x, y = int(box[0][0]), int(box[0][1])
-    cv2.putText(img, text, (x, y - 8), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 0, 0), 3)
-cv2.imwrite("boxes_cv_text.png", img)
-display(Image("boxes_cv_text.png", width=420))
-"""),
-    code("""
-# [셀 6] 한글은 PIL과 나눔 글꼴로 쓰기
+# [셀 5] 상자 위에 읽은 글자 쓰기 (PIL과 나눔 글꼴)
 import PIL.Image
 from PIL import ImageDraw, ImageFont
 pic = PIL.Image.open("boxes.png")
@@ -416,7 +408,19 @@ for box, text, conf in results:
     x, y = int(box[0][0]), int(box[0][1])
     draw.text((x, y - 36), text, font=font, fill=(30, 60, 200))
 pic.save("boxes_text.png")
-display(Image("boxes_text.png", width=420))
+display(Image("boxes_text.png", width=360))
+"""),
+    code("""
+# [셀 6] 헷갈린 부분만 잘라 크게 보기
+src = PIL.Image.open("menu_ko.png")
+for box, text, conf in results:
+    if conf < 0.8:
+        x1, y1 = int(box[0][0]), int(box[0][1])
+        x2, y2 = int(box[2][0]), int(box[2][1])
+        piece = src.crop((x1, y1, x2, y2))
+        piece.save("piece.png")
+        print("읽은 글자:", text, round(conf, 2))
+        display(Image("piece.png", width=240))
 """),
     md("""
 ---
