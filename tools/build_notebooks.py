@@ -88,6 +88,63 @@ print(name + ", 반가워요!")
 
 
 # ─────────────────────────────────────────────────────────────
+# 활동 2 · 노트북 다루기  (py_colab_u01_a02)
+# ─────────────────────────────────────────────────────────────
+A02 = notebook([
+    md("""
+# 활동 2 · 노트북 다루기
+
+이 칸이 **글 셀**이에요. 두 번 누르면 안에 쓴 글이 보이고, 다른 곳을 누르면 다시 이렇게 보여요.
+
+아래의 코드 셀을 **위에서 아래로 하나씩** 실행해요. 셀 3은 일부러 틀리게 써 두었어요.
+이 노트북은 learnX 학습 화면과 같이 봐요.
+"""),
+    code("""
+# [셀 1] 점수 만들기
+score = 80
+print("점수:", score)
+"""),
+    code("""
+# [셀 2] 점수 올리기  ※ 한 번 더 실행해 봐요
+score = score + 10
+print("점수:", score)
+"""),
+    code("""
+# [셀 3] 오류 읽기  ※ 일부러 틀리게 썼어요. 오류를 읽고 고쳐요
+print("최종 점수:", scroe)
+"""),
+    code("""
+# [셀 4] 다시 시작해도 남을까
+print("점수:", score)
+"""),
+    code("""
+# [셀 5] 파일 올리기  ※ 파일 선택 버튼을 눌러 그림을 골라요
+from google.colab import files
+uploaded = files.upload()
+for name in uploaded:
+    print("올린 파일:", name)
+"""),
+    code("""
+# [셀 6] 올린 그림 보기
+from IPython.display import Image, display
+for name in uploaded:
+    print(name, len(uploaded[name]), "바이트")
+    display(Image(name, width=320))
+"""),
+    md("""
+---
+여기까지 됐으면 학습 화면으로 돌아가 **결과 확인**을 눌러요.
+
+아래 빈 셀은 **바꿔 보기** 미션에서 써요.
+"""),
+    code("""
+# [바꿔 보기] 여기에 써요
+
+"""),
+], "활동 2 · 노트북 다루기")
+
+
+# ─────────────────────────────────────────────────────────────
 # 활동 4 · 사진에서 글자 뽑기 (OCR)  (py_colab_u02_a04)
 # ─────────────────────────────────────────────────────────────
 A04 = notebook([
@@ -156,6 +213,7 @@ print(" ".join(words))
 
 TARGETS = {
     "notebooks/u01/a01_first_run.ipynb": A01,
+    "notebooks/u01/a02_notebook_basics.ipynb": A02,
     "notebooks/u02/a04_ocr.ipynb": A04,
 }
 

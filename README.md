@@ -11,6 +11,7 @@
 ```
 notebooks/
   u01/a01_first_run.ipynb        01. 코랩 첫걸음 · 활동 1 코랩 열고 첫 셀 실행하기
+  u01/a02_notebook_basics.ipynb  01. 코랩 첫걸음 · 활동 2 노트북 다루기
   u02/a04_ocr.ipynb              02. 사진 속 글자 · 활동 4 사진에서 글자 뽑기 (OCR)
 samples/
   u02/menu_ko.png                OCR 연습용 가짜 분식집 메뉴판 (직접 제작)
