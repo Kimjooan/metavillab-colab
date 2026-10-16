@@ -16,10 +16,12 @@ notebooks/
   u02/a04_ocr.ipynb              02. 사진 속 글자 · 활동 4 사진에서 글자 뽑기 (OCR)
   u02/a05_ocr_cleanup.ipynb      02. 사진 속 글자 · 활동 5 뽑은 글자 다듬기
   u02/a06_ocr_boxes.ipynb        02. 사진 속 글자 · 활동 6 글자 영역에 상자 그리기
+  u02/a07_ocr_translate.ipynb    02. 사진 속 글자 · 활동 7 사진 속 글자 번역하기
 samples/
   u01/upload_me.png              활동 2 파일 올리기 연습 그림 (학습 화면에서도 내려받음)
   u02/menu_ko.png                OCR 연습용 가짜 분식집 메뉴판 (직접 제작)
   u02/sign_en.jpg                OCR 연습용 영어 안내판 (직접 제작)
+  u02/sign_ko.png                번역 연습용 한국어 안내문 (직접 제작, 활동 7)
 tools/
   build_notebooks.py             노트북 .ipynb 파일을 만드는 스크립트 (셀 내용의 원본)
   make_samples.py                샘플 이미지를 만드는 스크립트

@@ -431,6 +431,78 @@ display(Image("boxes_text.png", width=420))
 ], "활동 6 · 글자 영역에 상자 그리기")
 
 
+# ─────────────────────────────────────────────────────────────
+# 활동 7 · 사진 속 글자 번역하기  (py_colab_u02_a07)
+# ─────────────────────────────────────────────────────────────
+A07 = notebook([
+    md("""
+# 활동 7 · 사진 속 글자 번역하기
+
+한국어 안내문 사진의 글자를 OCR로 읽고, 번역 모델로 한 줄씩 영어로 바꿔요.
+셀을 **위에서 아래로 하나씩** 실행해요. 준비 셀, 셀 3, 셀 4는 조금 기다려야 해요.
+
+이 노트북은 learnX 학습 화면과 같이 봐요.
+"""),
+    code(f"""
+# [준비] 1~3분 걸려요. 기다리는 동안 학습 화면의 "이해하기"를 읽어요.
+!pip install -q --progress-bar off easyocr sentencepiece sacremoses
+!wget -q {RAW}/samples/u02/sign_ko.png
+import warnings, logging
+warnings.filterwarnings("ignore")
+logging.getLogger("easyocr").setLevel(logging.ERROR)
+from transformers.utils import logging as hf_logging
+hf_logging.set_verbosity_error()
+print("준비 끝")
+"""),
+    code("""
+# [셀 2] 사진 보기
+from IPython.display import Image, display
+display(Image("sign_ko.png", width=420))
+"""),
+    code("""
+# [셀 3] 글자 읽기  ※ 1분쯤 기다려요
+import easyocr
+reader = easyocr.Reader(["ko", "en"], gpu=False)
+results = reader.readtext("sign_ko.png")
+lines = []
+for box, text, conf in results:
+    lines.append(text)
+print("\\n읽은 글자:", len(lines), "줄")
+for text in lines:
+    print(text)
+"""),
+    code("""
+# [셀 4] 번역 도구 준비 (한국어를 영어로)  ※ 처음 한 번은 1분쯤 기다려요
+from transformers import pipeline
+translator = pipeline("translation", model="Helsinki-NLP/opus-mt-ko-en")
+print("번역 도구 준비 끝")
+"""),
+    code("""
+# [셀 5] 한 줄씩 번역하기
+for text in lines:
+    result = translator(text)
+    print(text)
+    print("   ", result[0]["translation_text"])
+"""),
+    code("""
+# [셀 6] 내 문장 번역하기
+my_sentence = "나는 파이썬으로 사진 속 글자를 읽을 수 있어요"
+result = translator(my_sentence)
+print(result[0]["translation_text"])
+"""),
+    md("""
+---
+여기까지 됐으면 학습 화면으로 돌아가 **결과 확인**을 눌러요.
+
+아래 빈 셀은 **바꿔 보기** 미션에서 써요.
+"""),
+    code("""
+# [바꿔 보기] 여기에 써요
+
+"""),
+], "활동 7 · 사진 속 글자 번역하기")
+
+
 TARGETS = {
     "notebooks/u01/a01_first_run.ipynb": A01,
     "notebooks/u01/a02_notebook_basics.ipynb": A02,
@@ -438,6 +510,7 @@ TARGETS = {
     "notebooks/u02/a04_ocr.ipynb": A04,
     "notebooks/u02/a05_ocr_cleanup.ipynb": A05,
     "notebooks/u02/a06_ocr_boxes.ipynb": A06,
+    "notebooks/u02/a07_ocr_translate.ipynb": A07,
 }
 
 if __name__ == "__main__":

@@ -84,11 +84,35 @@ def sign_en():
     return img
 
 
+def sign_ko():
+    """활동 7 번역용 한국어 안내문. 짧은 문장 네 줄 (메뉴 단어보다 문장이 번역이 자연스럽다)."""
+    W, H = 1000, 760
+    img = Image.new("RGB", (W, H), "white")
+    d = ImageDraw.Draw(img)
+    title_f = font(FONT_CANDIDATES, 72)
+    line_f = font(FONT_REG_CANDIDATES, 50)
+    d.rectangle([0, 0, W, 170], fill=NAVY)
+    d.text((W // 2, 85), "도서관 이용 안내", font=title_f, fill=YELLOW, anchor="mm")
+    lines = [
+        "조용히 해 주세요",
+        "음식은 밖에서 먹어요",
+        "책은 제자리에 꽂아 주세요",
+        "문은 오후 여섯 시에 닫아요",
+    ]
+    y = 270
+    for text in lines:
+        d.text((90, y), text, font=line_f, fill=INK, anchor="lm")
+        y += 125
+    return img
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     p1 = os.path.join(OUT, "menu_ko.png")
     menu_ko().save(p1, optimize=True)
     p2 = os.path.join(OUT, "sign_en.jpg")
     sign_en().convert("RGB").save(p2, quality=92)
-    for p in (p1, p2):
+    p3 = os.path.join(OUT, "sign_ko.png")
+    sign_ko().save(p3, optimize=True)
+    for p in (p1, p2, p3):
         print(p, os.path.getsize(p), "bytes")
