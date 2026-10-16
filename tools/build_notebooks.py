@@ -118,18 +118,15 @@ print("최종 점수:", scroe)
 print("점수:", score)
 """),
     code("""
-# [셀 5] 파일 올리기  ※ 파일 선택 버튼을 눌러 그림을 골라요
-from google.colab import files
-uploaded = files.upload()
-for name in uploaded:
-    print("올린 파일:", name)
+# [셀 5] 올린 파일 찾기  ※ 먼저 왼쪽 파일 보기에서 upload_me.png를 올려요
+import os
+print(os.listdir())
 """),
     code("""
 # [셀 6] 올린 그림 보기
 from IPython.display import Image, display
-for name in uploaded:
-    print(name, len(uploaded[name]), "바이트")
-    display(Image(name, width=320))
+print("upload_me.png", os.path.getsize("upload_me.png"), "바이트")
+display(Image("upload_me.png", width=320))
 """),
     md("""
 ---
