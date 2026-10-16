@@ -454,7 +454,8 @@ A07 = notebook([
 import warnings, logging
 warnings.filterwarnings("ignore")
 logging.getLogger("easyocr").setLevel(logging.ERROR)
-logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
+from huggingface_hub.utils import logging as hub_logging
+hub_logging.set_verbosity_error()
 from transformers.utils import logging as hf_logging
 hf_logging.set_verbosity_error()
 print("준비 끝")
