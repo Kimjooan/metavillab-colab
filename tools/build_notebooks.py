@@ -142,6 +142,62 @@ display(Image("upload_me.png", width=320))
 
 
 # ─────────────────────────────────────────────────────────────
+# 활동 3 · 라이브러리 설치하고 QR코드 만들기  (py_colab_u01_a03)
+# ─────────────────────────────────────────────────────────────
+A03 = notebook([
+    md("""
+# 활동 3 · 라이브러리 설치하고 QR코드 만들기
+
+QR코드를 만드는 라이브러리를 설치하고, 내 이름이 담긴 QR코드 그림을 만들어 내 PC로 내려받아요.
+셀을 **위에서 아래로 하나씩** 실행해요.
+
+이 노트북은 learnX 학습 화면과 같이 봐요.
+"""),
+    code("""
+# [준비] qrcode 라이브러리를 설치해요. 10초쯤 걸려요.
+!pip install -q --progress-bar off qrcode
+print("준비 끝")
+"""),
+    code("""
+# [셀 2] QR에 담을 글 정하기
+message = "이름: 메타빌"
+print("QR에 담을 글:", message)
+"""),
+    code("""
+# [셀 3] QR코드 만들기
+import qrcode
+qr = qrcode.QRCode(box_size=10, border=4)
+qr.add_data(message)
+qr.make(fit=True)
+img = qr.make_image(fill_color="black", back_color="white")
+print("가로세로", qr.modules_count, "칸짜리 QR코드를 만들었어요")
+"""),
+    code("""
+# [셀 4] QR코드 그림으로 저장하고 보기
+from IPython.display import Image, display
+img.save("my_qr.png")
+display(Image("my_qr.png", width=260))
+"""),
+    code("""
+# [셀 5] 내 PC로 내려받기
+from google.colab import files
+files.download("my_qr.png")
+print("my_qr.png 내려받기를 시작했어요")
+"""),
+    md("""
+---
+여기까지 됐으면 학습 화면으로 돌아가 **결과 확인**을 눌러요.
+
+아래 빈 셀은 **바꿔 보기** 미션에서 써요.
+"""),
+    code("""
+# [바꿔 보기] 여기에 써요
+
+"""),
+], "활동 3 · 라이브러리 설치하고 QR코드 만들기")
+
+
+# ─────────────────────────────────────────────────────────────
 # 활동 4 · 사진에서 글자 뽑기 (OCR)  (py_colab_u02_a04)
 # ─────────────────────────────────────────────────────────────
 A04 = notebook([
@@ -211,6 +267,7 @@ print(" ".join(words))
 TARGETS = {
     "notebooks/u01/a01_first_run.ipynb": A01,
     "notebooks/u01/a02_notebook_basics.ipynb": A02,
+    "notebooks/u01/a03_qrcode.ipynb": A03,
     "notebooks/u02/a04_ocr.ipynb": A04,
 }
 

@@ -12,6 +12,7 @@
 notebooks/
   u01/a01_first_run.ipynb        01. 코랩 첫걸음 · 활동 1 코랩 열고 첫 셀 실행하기
   u01/a02_notebook_basics.ipynb  01. 코랩 첫걸음 · 활동 2 노트북 다루기
+  u01/a03_qrcode.ipynb           01. 코랩 첫걸음 · 활동 3 라이브러리 설치하고 QR코드 만들기
   u02/a04_ocr.ipynb              02. 사진 속 글자 · 활동 4 사진에서 글자 뽑기 (OCR)
 samples/
   u01/upload_me.png              활동 2 파일 올리기 연습 그림 (학습 화면에서도 내려받음)
